@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180406140848) do
+ActiveRecord::Schema.define(version: 20180406141014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(version: 20180406140848) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pipefy_id"], name: "index_organizations_on_pipefy_id", unique: true
+  end
+
+  create_table "pipes", force: :cascade do |t|
+    t.integer "pipefy_id"
+    t.string "name"
+    t.jsonb "start_form_fields", default: []
+    t.integer "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id", "pipefy_id"], name: "index_pipes_on_organization_id_and_pipefy_id"
+    t.index ["organization_id"], name: "index_pipes_on_organization_id"
+    t.index ["pipefy_id"], name: "index_pipes_on_pipefy_id"
   end
 
 end
