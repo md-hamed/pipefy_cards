@@ -1,0 +1,5 @@
+<tr>
+  <% card.phase.field_names.each do |field| %>
+    <td><%= card.fields.select { |f| f['name'] == field }.first.try(:[], 'value') %></td>
+  <% end %>
+</tr>
