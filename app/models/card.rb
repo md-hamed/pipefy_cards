@@ -1,6 +1,6 @@
 class Card < ApplicationRecord
   # validations
-  validates :name, presence: true
+  validates :title, presence: true
   validates :pipefy_id, presence: true, uniqueness: true
   
   # associations
