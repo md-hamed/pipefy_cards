@@ -13,6 +13,10 @@ module Pipefy
 
     def query(graph, criteria)
       @client.query(graph, criteria).original_hash['data']['organization']
+
+    rescue Graphlient::Errors::ClientError, Graphlient::Errors::GraphQLError,
+           Graphlient::Errors::ExecutionError, Graphlient::Errors::ServerError => e
+      return nil
     end
   end
 end

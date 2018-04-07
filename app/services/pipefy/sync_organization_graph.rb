@@ -11,12 +11,13 @@ module Pipefy
 
     def perform
       data = @client.query(@graph, @criteria)
-      return if data.nil?
+      return false if data.nil?
       
       organization = sync_organization(data)
       pipe = sync_pipe(data, organization)
       phases = sync_phases(data, pipe)
       sync_cards(data, phases)
+      true
     end
 
     private
