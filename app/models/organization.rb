@@ -4,5 +4,5 @@ class Organization < ApplicationRecord
   validates :pipefy_id, presence: true, uniqueness: true
 
   # associations
-  has_many :pipes
+  has_many :pipes, dependent: :destroy
 end
