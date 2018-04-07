@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="card-header">
+    <span>Phase: <strong><%= phase.name %></strong></span>
+  </div>
+  <div class="card-body">
+    <table class="table table-hover cards-table">
+      <thead class='thead-dark'>
+        <tr>
+          <th>Title</th>
+          <th>Created at</th>
+          <th>Due Date</th>
+          <% phase.field_names.each do |field| %>
+            <th scope="col"><%= field %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'cards/card', collection: phase.cards %>
+      </tbody>
+    </table>
+  </div>
+</div>

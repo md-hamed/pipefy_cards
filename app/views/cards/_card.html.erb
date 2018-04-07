@@ -1,0 +1,8 @@
+<tr>
+  <td><%= card.title %></td>
+  <td><%= card.created_on_pipefy_at %></td>
+  <td><%= card.due_at %></td>
+  <% card.phase.field_names.each do |field| %>
+    <td><%= card.fields.select { |f| f['name'] == field }.first.try(:[], 'value') %></td>
+  <% end %>
+</tr>

@@ -1,6 +1,6 @@
 module Pipefy
   class SyncOrganizationGraph
-    def initialize(organization_id: 114095, pipe_id: 423922)
+    def initialize(organization_id:, pipe_id:)
       @client = Pipefy::Client.new
       @graph = Pipefy::Query.organization
       @criteria = {
@@ -11,6 +11,8 @@ module Pipefy
 
     def perform
       data = @client.query(@graph, @criteria)
+      return if data.nil?
+      
       organization = sync_organization(data)
       pipe = sync_pipe(data, organization)
       phases = sync_phases(data, pipe)
@@ -28,16 +30,16 @@ module Pipefy
     end
 
     def sync_phases(data, pipe)
-      phases_attributes(data).map { |p| create_or_update_entity(Phase, p, pipe) }
       destroy_unreceived_entities(Phase, phases_attributes(data).map { |p| p['pipefy_id'] })
+      phases_attributes(data).map { |p| create_or_update_entity(Phase, p, pipe) }
     end
 
     def sync_cards(data, phases)
+      destroy_unreceived_entities(Card, cards_attributes(data).map { |p| p.dig('node', 'pipefy_id') })
       cards_attributes(data).each do |c|
         phase = phases.select { |p| p.pipefy_id == c.dig('node', 'current_phase', 'id').to_i }.first
         create_or_update_entity(Card, c['node'].except('current_phase'), phase)
       end
-      destroy_unreceived_entities(Card, cards_attributes(data).map { |p| p.dig('node', 'pipefy_id') })
     end
 
     def create_or_update_entity(entity, attributes, parent = nil)
