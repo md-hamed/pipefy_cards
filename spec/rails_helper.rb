@@ -8,6 +8,9 @@ require 'rspec/rails'
 require 'database_cleaner'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# require support files
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -38,6 +41,8 @@ end
 RSpec.configure do |config|
   # include Factory Bot syntax
   config.include FactoryBot::Syntax::Methods
+  # include Stubbed requests
+  config.include StubbedRequests
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
