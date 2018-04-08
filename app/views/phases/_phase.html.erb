@@ -15,7 +15,8 @@
         </tr>
       </thead>
       <tbody>
-        <%= render partial: 'cards/card', collection: phase.cards %>
+        <%= render(partial: 'cards/card', collection: phase.cards) || content_tag(:tr, content_tag(:td, 'No cards to display', colspan: phase.field_names.length + 3)) %>
+        <!-- empty colspan = custom fields plus title/created at/due date fields -->
       </tbody>
     </table>
   </div>
